@@ -9,6 +9,14 @@ bool random_action(float probability) {
     return dis(gen) < probability;
 }
 
+// Function to generate a random initial position based on probability
+bool random_integer(const int min, const int max) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
+}
+
 // Simulate random actions for different entities
 void simulate_random_actions() {
     // Probabilities for different actions

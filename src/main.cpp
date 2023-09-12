@@ -9,15 +9,14 @@ static const uint32_t NUM_ROWS = 15;
 
 // Constants
 const uint32_t PLANT_MAXIMUM_AGE = 10;
-const uint32_t PLANT_INITIAL_ENERGY = 10;
 const uint32_t PLANT_INITIAL_AGE = 0;
 
 const uint32_t HERBIVORE_MAXIMUM_AGE = 50;
-const uint32_t HERBIVORE_INITIAL_ENERGY = 10;
+const uint32_t HERBIVORE_INITIAL_ENERGY = 100;
 const uint32_t HERBIVORE_INITIAL_AGE = 0;
 
 const uint32_t CARNIVORE_MAXIMUM_AGE = 80;
-const uint32_t CARNIVORE_INITIAL_ENERGY = 10;
+const uint32_t CARNIVORE_INITIAL_ENERGY = 100;
 const uint32_t CARNIVORE_INITIAL_AGE = 0;
 
 const uint32_t MAXIMUM_ENERGY = 200;
@@ -74,6 +73,57 @@ namespace nlohmann
 // Grid that contains the entities
 static std::vector<std::vector<entity_t>> entity_grid;
 
+
+        // Função para criar as plantas aleatoriamente no grid
+        void createPlants(int numPlants) {
+            for (int i = 0; i < numPlants; ++i) {
+                int row, col;
+                // Gere posições aleatórias até encontrar uma célula vazia (empty)
+                do {
+                    row = random_integer(0, NUM_ROWS - 1);
+                    col = random_integer(0, NUM_ROWS - 1);
+                } while (entity_grid[row][col].type != empty);
+                
+                // Defina a célula como uma planta
+                entity_grid[row][col].type = plant;
+            }
+        }
+
+        // Função para criar herbivoros aleatoriamente no grid
+        void createHerbivores(int numHerbivores) {
+            for (int i = 0; i < numHerbivores; ++i) {
+                int row, col;
+                // Gere posições aleatórias até encontrar uma célula vazia (empty)
+                do {
+                    row = random_integer(0, NUM_ROWS - 1);
+                    col = random_integer(0, NUM_ROWS - 1);
+                } while (entity_grid[row][col].type != empty);
+                
+                // Defina a célula como uma planta
+                entity_grid[row][col].type = herbivore;
+                entity_grid[row][col].energy = HERBIVORE_INITIAL_ENERGY;
+                entity_grid[row][col].age = HERBIVORE_INITIAL_AGE;
+            }
+        }
+
+        // Função para criar carnivoros aleatoriamente no grid
+        void createCarnivores(int numCarnivores) {
+            for (int i = 0; i < numCarnivores; ++i) {
+                int row, col;
+                // Gere posições aleatórias até encontrar uma célula vazia (empty)
+                do {
+                    row = random_integer(0, NUM_ROWS - 1);
+                    col = random_integer(0, NUM_ROWS - 1);
+                } while (entity_grid[row][col].type != empty);
+                
+                // Defina a célula como uma planta
+                entity_grid[row][col].type = carnivore;
+                entity_grid[row][col].energy = CARNIVORE_INITIAL_ENERGY;
+                entity_grid[row][col].age = CARNIVORE_INITIAL_AGE;
+            }
+        }
+
+
 int main()
 {
     crow::SimpleApp app;
@@ -107,6 +157,16 @@ int main()
         
         // Create the entities
         // <YOUR CODE HERE>
+        // Código para criar entidades com base nos números fornecidos na solicitação POST
+        uint32_t numPlants = (uint32_t)request_body["plants"];
+        uint32_t numHerbivores = (uint32_t)request_body["herbivores"];
+        uint32_t numCarnivores = (uint32_t)request_body["carnivores"];
+
+        // Chame as funções para criar as entidades com base nos valores fornecidos
+        createPlants(numPlants);
+        createHerbivores(numHerbivores);
+        createCarnivores(numCarnivores);
+
 
         // Return the JSON representation of the entity grid
         nlohmann::json json_grid = entity_grid; 
@@ -121,6 +181,7 @@ int main()
         // Iterate over the entity grid and simulate the behaviour of each entity
         
         // <YOUR CODE HERE>
+        
         
         // Return the JSON representation of the entity grid
         nlohmann::json json_grid = entity_grid; 
