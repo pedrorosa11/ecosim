@@ -9,8 +9,17 @@ static const uint32_t NUM_ROWS = 15;
 
 // Constants
 const uint32_t PLANT_MAXIMUM_AGE = 10;
+const uint32_t PLANT_INITIAL_ENERGY = 10;
+const uint32_t PLANT_INITIAL_AGE = 0;
+
 const uint32_t HERBIVORE_MAXIMUM_AGE = 50;
+const uint32_t HERBIVORE_INITIAL_ENERGY = 10;
+const uint32_t HERBIVORE_INITIAL_AGE = 0;
+
 const uint32_t CARNIVORE_MAXIMUM_AGE = 80;
+const uint32_t CARNIVORE_INITIAL_ENERGY = 10;
+const uint32_t CARNIVORE_INITIAL_AGE = 0;
+
 const uint32_t MAXIMUM_ENERGY = 200;
 const uint32_t THRESHOLD_ENERGY_FOR_REPRODUCTION = 20;
 
