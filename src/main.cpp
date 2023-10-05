@@ -24,6 +24,13 @@ bool random_integer(const int min, const int max) {
     return dis(gen);
 }
 
+// Random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> randRow(0, NUM_ROWS - 1);
+    std::uniform_int_distribution<int> randCol(0, NUM_ROWS - 1);
+
+
 // Simulate random actions for different entities
 void simulate_random_actions() {
     // Probabilities for different actions
@@ -56,8 +63,15 @@ void simulate_random_actions() {
 
 // Constants
 const uint32_t PLANT_MAXIMUM_AGE = 10;
+
 const uint32_t HERBIVORE_MAXIMUM_AGE = 50;
+const uint32_t HERBIVORE_INITIAL_AGE = 0;
+const uint32_t HERBIVORE_INITIAL_ENERGY = 100;
+
 const uint32_t CARNIVORE_MAXIMUM_AGE = 80;
+const uint32_t CARNIVORE_INITIAL_ENERGY = 100;
+const uint32_t CARNIVORE_INITIAL_AGE = 0;
+
 const uint32_t MAXIMUM_ENERGY = 200;
 const uint32_t THRESHOLD_ENERGY_FOR_REPRODUCTION = 20;
 
@@ -199,9 +213,13 @@ int main()
         /* Simulate the next iteration
         Iterate over the entity grid and simulate the behaviour of each entity
         <YOUR CODE HERE>*/
-        void simulateNextIteration() {
+        // Inicie a simulação em um loop (por exemplo, 100 iterações)
+            for (int iteration = 0; iteration < 100; ++iteration) {
+                // Simule a próxima iteração
+                // Código da simulação começa aqui
     // Create a temporary copy of the entity grid to avoid changes during iteration
     std::vector<std::vector<entity_t>> new_entity_grid = entity_grid;
+
         for (uint32_t i = 0; i < NUM_ROWS; ++i) {
             for (uint32_t j = 0; j < NUM_ROWS; ++j) {
                 entity_t& current_entity = entity_grid[i][j];
@@ -262,18 +280,22 @@ int main()
 
                         // Verifique as células vizinhas para determinar onde o herbívoro pode se mover
                         // Certifique-se de verificar limites para não sair do grid
-                        if (current_i > 0 && entity_grid[current_i - 1][current_j].type == empty) {
-                            possible_moves.push_back({current_i - 1, current_j}); // Movimento para cima
+                        if (current_i > 0 && entity_grid[static_cast<uint32_t>(current_i - 1)][static_cast<uint32_t>(current_j)].type == empty) {
+                            possible_moves.push_back({static_cast<uint32_t>(current_i - 1), static_cast<uint32_t>(current_j)}); // Movimento para cima
                         }
-                        if (current_i < NUM_ROWS - 1 && entity_grid[current_i + 1][current_j].type == empty) {
-                            possible_moves.push_back({current_i + 1, current_j}); // Movimento para baixo
+
+                        if (current_i < static_cast<uint32_t>(NUM_ROWS - 1) && entity_grid[current_i + 1][static_cast<uint32_t>(current_j)].type == empty) {
+                            possible_moves.push_back({static_cast<uint32_t>(current_i + 1), static_cast<uint32_t>(current_j)}); // Movimento para baixo
                         }
-                        if (current_j > 0 && entity_grid[current_i][current_j - 1].type == empty) {
-                            possible_moves.push_back({current_i, current_j - 1}); // Movimento para a esquerda
+
+                        if (current_j > 0 && entity_grid[static_cast<uint32_t>(current_i)][static_cast<uint32_t>(current_j - 1)].type == empty) {
+                            possible_moves.push_back({static_cast<uint32_t>(current_i), static_cast<uint32_t>(current_j - 1)}); // Movimento para a esquerda
                         }
-                        if (current_j < NUM_ROWS - 1 && entity_grid[current_i][current_j + 1].type == empty) {
-                            possible_moves.push_back({current_i, current_j + 1}); // Movimento para a direita
+
+                        if (current_j < NUM_ROWS - 1 && entity_grid[static_cast<uint32_t>(current_i)][static_cast<uint32_t>(current_j + 1)].type == empty) {
+                            possible_moves.push_back({static_cast<uint32_t>(current_i), static_cast<uint32_t>(current_j + 1)}); // Movimento para a direita
                         }
+
 
                         // Se houver células disponíveis para mover, escolha aleatoriamente uma delas
                         if (!possible_moves.empty()) {
